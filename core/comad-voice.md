@@ -75,6 +75,84 @@ DECOMPOSE 단계에서 5-Point Checklist로 의존성 자동 분석.
 - 독립 태스크 2개 이상 -> `/pumasi`로 Codex 자동 위임
 - 의존 태스크 -> Claude가 순서대로 실행
 - 독립이지만 맥락 필요 -> Claude가 직접 처리
+
+### T4. 레포 광택 (Repo Polish)
+
+**감지 키워드:** "광택", "레포 정리", "repo polish", "배포 준비", "GitHub 정리", "레포 꾸며줘", "professional하게", "허접해 보여"
+
+GitHub 레포를 인기 오픈소스 수준으로 자동 포장하는 트리거.
+코드 품질이 아니라 레포의 **포장(presentation)** 을 개선한다.
+
+**실행 절차:**
+
+1. **SCAN** — 레포 구조 스캔, 누락 파일 자동 감지
+   - README.md 뱃지 여부
+   - .gitignore 존재 여부
+   - LICENSE 존재 여부
+   - CHANGELOG.md 존재 여부
+   - CONTRIBUTING.md 존재 여부
+   - CODE_OF_CONDUCT.md 존재 여부
+   - SECURITY.md 존재 여부
+   - .github/ISSUE_TEMPLATE/ 존재 여부
+   - .github/PULL_REQUEST_TEMPLATE.md 존재 여부
+   - .github/workflows/ (CI/CD) 존재 여부
+   - Social preview 이미지 존재 여부
+   - Git tag / GitHub Release 존재 여부
+   - README에 TOC 존재 여부 (섹션 5개 이상일 때)
+
+2. **DIAGNOSE** — 갭을 카드로 제시
+
+```
+## 레포 광택 진단 결과
+
+### 카드 1: README 광택 — 난이도 낮 / 효과 높
+- 현재: 뱃지 없음, TOC 없음, 히어로 이미지 없음
+- 개선: shields.io 뱃지 3-4개 + TOC + 센터 정렬 히어로
+- 이걸 하면: 첫인상이 프로 레포처럼 보임
+
+### 카드 2: 커뮤니티 인프라 — 난이도 낮 / 효과 중
+- 현재: CONTRIBUTING, CODE_OF_CONDUCT, SECURITY 없음
+- 개선: 한국어 템플릿 자동 생성
+- 이걸 하면: GitHub "Community Standards" 점수 100%
+
+### 카드 3: Issue/PR 템플릿 — 난이도 낮 / 효과 중
+- 현재: .github/ 폴더 없음
+- 개선: Bug Report, Feature Request, PR 체크리스트 자동 생성
+- 이걸 하면: 기여자가 구조화된 양식으로 소통
+
+### 카드 4: 릴리스 관리 — 난이도 낮 / 효과 높
+- 현재: Git tag 없음, CHANGELOG 없음
+- 개선: v1.0.0 태그 + Keep a Changelog 형식 + GitHub Release
+- 이걸 하면: 버전 관리가 프로페셔널하게 보임
+
+### 카드 5: Social Preview — 난이도 중 / 효과 높
+- 현재: 공유 시 썸네일 없음
+- 개선: 1280x640 브랜드 이미지 자동 생성
+- 이걸 하면: SNS/슬랙 공유 시 눈에 띄는 썸네일
+
+어떤 카드를 진행할까요? (번호 선택 또는 "전부 다")
+```
+
+3. **GENERATE** — 선택된 카드의 파일들을 프로젝트에 맞게 자동 생성
+   - 프로젝트명, 저자, 라이선스 등을 자동 감지하여 반영
+   - 한국어 프로젝트면 한국어로, 영어면 영어로 생성
+   - README 뱃지는 실제 GitHub 사용자명/레포명으로 URL 생성
+
+4. **RELEASE** — Git tag + GitHub Release 자동 생성
+   - CHANGELOG.md에서 최신 버전 추출
+   - `git tag v{version}` + `git push --tags`
+   - `gh release create` 로 GitHub Release 생성
+
+5. **VERIFY** — 최종 체크리스트 통과 확인
+   - 모든 필수 파일 존재 확인
+   - `gh api repos/{owner}/{repo}/community/profile` 로 커뮤니티 점수 확인
+   - README 렌더링 확인
+
+**자동 감지 규칙:**
+- 프로젝트의 주 언어 감지 (Python, Node.js, Go 등) → .gitignore 자동 맞춤
+- package.json / pyproject.toml / go.mod 등에서 버전 추출
+- git remote에서 GitHub owner/repo 추출
+- 기존 README 구조를 최대한 유지하면서 뱃지/TOC만 추가
 </comad_voice_triggers>
 
 ---

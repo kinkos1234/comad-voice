@@ -1,10 +1,41 @@
-# Comad Voice
+<p align="center">
+  <img src="docs/images/slide-1-cover.png" alt="Comad Voice" width="400">
+</p>
 
-**"말만 해. 나머지는 AI가 다 한다."**
+<h1 align="center">Comad Voice</h1>
 
-비개발자 바이브코더를 위한 AI 워크플로우 하네스.
-Claude Code + Codex + Gemini를 하나의 음성처럼 통합해서,
-대주제 하나 던지면 리서치 → 실험 → 리팩토링 → 완성까지 자동으로 돌아간다.
+<p align="center">
+  <strong>"말만 해. 나머지는 AI가 다 한다."</strong>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://github.com/kinkos1234/comad-voice/releases"><img src="https://img.shields.io/github/v/release/kinkos1234/comad-voice?include_prereleases" alt="Release"></a>
+  <img src="https://img.shields.io/badge/Made%20with-AI-22D3EE" alt="Made with AI">
+  <img src="https://img.shields.io/badge/Claude%20Code-compatible-blueviolet" alt="Claude Code">
+</p>
+
+<p align="center">
+  비개발자 바이브코더를 위한 AI 워크플로우 하네스.<br>
+  Claude Code + Codex + Gemini를 하나의 음성처럼 통합해서,<br>
+  대주제 하나 던지면 리서치 → 실험 → 리팩토링 → 완성까지 자동으로 돌아간다.
+</p>
+
+---
+
+## 목차
+
+- [Comad 시리즈](#comad-시리즈)
+- [누구를 위한 건가요?](#누구를-위한-건가요)
+- [이걸 쓰면 뭐가 달라지나요?](#이걸-쓰면-뭐가-달라지나요)
+- [필수 요구 사항](#필수-요구-사항)
+- [설치](#설치)
+- [사용법](#사용법)
+- [핵심 명령어 치트시트](#핵심-명령어-치트시트)
+- [작동 원리](#작동-원리)
+- [크레딧](#크레딧)
+- [기여하기](#기여하기)
+- [라이선스](#라이선스)
 
 ---
 
@@ -13,8 +44,8 @@ Claude Code + Codex + Gemini를 하나의 음성처럼 통합해서,
 | 이름            | 역할                          |
 | --------------- | ----------------------------- |
 | **ComadEye**    | 미래 시뮬레이터 (보다)        |
-| **Comad Ear**   | 디스코드 봇 서버 (듣다)       |
-| **Comad Brain** | 지식 온톨로지 (생각하다)      |
+| **Comad Ear**   | 디스코드 봇 서버 (듣다)       |
+| **Comad Brain** | 지식 온톨로지 (생각하다)      |
 | **Comad Voice** | AI 워크플로우 하네스 (말하다) |
 
 ---
@@ -28,6 +59,7 @@ Claude Code + Codex + Gemini를 하나의 음성처럼 통합해서,
 ## 이걸 쓰면 뭐가 달라지나요?
 
 **Before:** "이거 개선해줘" → Claude가 한 가지만 고치고 끝
+
 **After:** "검토해봐" → Claude가 알아서 진단하고, 선택지 카드를 보여주고, 선택만 하면 자동 실험 루프
 
 ---
@@ -192,28 +224,34 @@ Comad Voice는 다음 오픈소스 도구들 위에 만들어진 하네스입니
 
 - **[oh-my-claudecode (OMC)](https://github.com/anthropics/oh-my-claudecode)** — 멀티 에이전트 오케스트레이션
 - **[gstack](https://github.com/anthropics/gstack)** — 스프린트 워크플로우 + 브라우저 QA
-- **[autoresearch](https://github.com/...)** — 자율 실험 루프 (Andrej Karpathy 영감)
-- **[pumasi](https://github.com/...)** — Codex CLI 병렬 위임
-- **[Nexus](https://github.com/...)** — 통합 자율 개발 시스템
+- **autoresearch** — 자율 실험 루프 (Andrej Karpathy 영감)
+- **pumasi** — Codex CLI 병렬 위임
+- **Nexus** — 통합 자율 개발 시스템
 
 > 이 도구들의 원작자분들께 감사드립니다.
 > Comad Voice는 이 도구들을 비개발자도 쉽게 쓸 수 있도록 워크플로우를 정리한 것입니다.
 
----
+### 영감
 
-## 영감
-
-- [Andrej Karpathy — &#34;Software in the era of AI&#34;](https://www.youtube.com/watch?v=kwSVtQ7dziU)
+- [Andrej Karpathy — "Software in the era of AI"](https://www.youtube.com/watch?v=kwSVtQ7dziU)
   - Generation + Verification 루프
   - Autonomy Slider 개념
   - "부분적 자율성"으로 AI와 협업
 
 ---
 
-## 라이선스
+## 기여하기
 
-MIT
+기여를 환영합니다! [CONTRIBUTING.md](CONTRIBUTING.md)를 참고해주세요.
 
 ---
 
-**Made with AI by Comad J**
+## 라이선스
+
+[MIT](LICENSE) - 자유롭게 사용, 수정, 배포할 수 있습니다.
+
+---
+
+<p align="center">
+  <strong>Made with AI by Comad J</strong>
+</p>
