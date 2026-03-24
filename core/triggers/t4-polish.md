@@ -101,8 +101,8 @@ GitHub 레포를 인기 오픈소스 수준으로 자동 포장하는 트리거.
 
    ### 카드 7: CI/CD 품질 게이트 — 난이도 중 / 효과 중
    - 현재: 워크플로우 없음
-   - 개선: markdown lint + 필수 파일 체크 + (선택) super-linter
-   - 이걸 하면: PR마다 자동 품질 검증
+   - 개선: markdown lint + 필수 파일 체크 + `.markdownlint-cli2.jsonc` 자동 생성
+   - 이걸 하면: PR마다 자동 품질 검증, 한국어 문서/CHANGELOG 린트 충돌 사전 방지
 
    현재 README 점수: 3.5/10
    전부 적용 시 예상 점수: 9.5/10
@@ -163,6 +163,42 @@ GitHub 레포를 인기 오픈소스 수준으로 자동 포장하는 트리거.
    - `git log --format='%aN'` 에서 기여자 추출
    - GitHub 프로필 링크 + 아바타 테이블 생성
 
+   **Markdownlint 설정 자동 생성 (CI 린트 충돌 방지):**
+
+   CI에 markdownlint를 추가할 때 `.markdownlint-cli2.jsonc`를 함께 생성한다.
+   한국어 문서와 Keep a Changelog 형식에서 반복적으로 충돌하는 룰을 사전 비활성화:
+
+   ```json
+   {
+     "config": {
+       "MD013": false,
+       "MD022": false,
+       "MD024": false,
+       "MD029": false,
+       "MD031": false,
+       "MD032": false,
+       "MD033": false,
+       "MD034": false,
+       "MD040": false,
+       "MD041": false,
+       "MD050": false
+     }
+   }
+   ```
+
+   | 룰 | 비활성화 이유 |
+   |----|-------------|
+   | MD013 | 한국어 문장은 영어보다 줄 길이가 길어지기 쉬움 |
+   | MD022, MD032 | 한국어 문서의 빈 줄 스타일이 영어와 다름 |
+   | MD024 | CHANGELOG에서 `### Added` 등 섹션 제목 반복 필수 |
+   | MD029 | 순서 목록 번호 스타일 (1. 1. 1. vs 1. 2. 3.) |
+   | MD031 | 코드 블록 주변 빈 줄 스타일 |
+   | MD033 | README에 HTML 태그 사용 (`<p align="center">` 뱃지 등) |
+   | MD034 | 본문 내 bare URL (크레딧/링크 섹션에서 흔함) |
+   | MD040 | 코드 블록 언어 미지정 (설명용 블록에선 불필요) |
+   | MD041 | 첫 줄이 `<p align>` HTML일 때 제목 아님 오탐 |
+   | MD050 | `__/10` 같은 패턴이 강조 문법으로 오인 |
+
    **자동 감지 규칙:**
    - 프로젝트의 주 언어 감지 → .gitignore 템플릿 맞춤
    - 한국어 프로젝트면 한국어로, 영어면 영어로 생성
@@ -188,6 +224,7 @@ GitHub 레포를 인기 오픈소스 수준으로 자동 포장하는 트리거.
    [ ] .github/ISSUE_TEMPLATE/ (bug + feature)
    [ ] .github/PULL_REQUEST_TEMPLATE.md
    [ ] .github/workflows/ci.yml
+   [ ] .markdownlint-cli2.jsonc (CI 린트 충돌 방지 설정)
    [ ] Social preview 이미지 또는 socialify URL
 
    [GitHub API 확인]

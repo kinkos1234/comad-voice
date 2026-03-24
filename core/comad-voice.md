@@ -95,7 +95,7 @@ GitHub 레포를 인기 오픈소스 수준으로 자동 포장하는 트리거.
 
 **SCAN**: 레포 구조 + 메타데이터 자동 수집 (파일 존재, git remote, package 감지)
 **DIAGNOSE**: README 10점 만점 스코어링 + 7개 갭 카드 제시
-**GENERATE**: 선택 카드의 파일 자동 생성 (뱃지, 템플릿, CI, Social Preview 등)
+**GENERATE**: 선택 카드의 파일 자동 생성 (뱃지, 템플릿, CI, Social Preview, `.markdownlint-cli2.jsonc` 등)
 **RELEASE**: CHANGELOG + Git tag + GitHub Release
 **VERIFY**: 최종 체크리스트 + 커뮤니티 건강도 API 확인
 </comad_voice_triggers>
