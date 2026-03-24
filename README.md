@@ -21,6 +21,10 @@
   대주제 하나 던지면 리서치 → 실험 → 리팩토링 → 완성까지 자동으로 돌아간다.
 </p>
 
+<p align="center">
+  한국어 · <a href="README.en.md">English</a>
+</p>
+
 ---
 
 ## 목차

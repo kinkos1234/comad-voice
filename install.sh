@@ -2,150 +2,199 @@
 # Comad Voice Installer
 # "말만 해. 나머지는 AI가 다 한다."
 
-set -e
+set -euo pipefail
 
+# ─── Constants ───
+VERSION="1.0.0"
+CLAUDE_MD="$HOME/.claude/CLAUDE.md"
+MARKER_START="<!-- COMAD-VOICE:START -->"
+MARKER_END="<!-- COMAD-VOICE:END -->"
+REPO_RAW="https://raw.githubusercontent.com/kinkos1234/comad-voice/main"
+
+# ─── Colors ───
 CYAN='\033[0;36m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
+# ─── Cleanup trap ───
+TEMP_DIR=""
+cleanup() {
+    if [ -n "$TEMP_DIR" ] && [ -d "$TEMP_DIR" ]; then
+        rm -rf "$TEMP_DIR"
+    fi
+}
+trap cleanup EXIT
+
+# ─── Helper functions ───
+info()    { echo -e "  ${GREEN}✓${NC} $1"; }
+warn()    { echo -e "  ${YELLOW}!${NC} $1"; }
+error()   { echo -e "  ${RED}✗${NC} $1"; }
+step()    { echo -e "${YELLOW}$1${NC}"; }
+
+# Cross-platform sed -i (macOS vs Linux)
+sed_inplace() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "$@"
+    else
+        sed -i "$@"
+    fi
+}
+
+# ─── Banner ───
 echo ""
 echo -e "${CYAN}=============================${NC}"
-echo -e "${CYAN}  Comad Voice Installer v1.0 ${NC}"
+echo -e "${CYAN}  Comad Voice Installer v${VERSION} ${NC}"
 echo -e "${CYAN}=============================${NC}"
 echo ""
 
-# 1. Check prerequisites
-echo -e "${YELLOW}[1/4] Checking prerequisites...${NC}"
+# ─── Step 1: Check prerequisites ───
+step "[1/4] Checking prerequisites..."
 
 # Check Claude Code
 if command -v claude &> /dev/null; then
-    echo -e "  ${GREEN}✓${NC} Claude Code found"
+    info "Claude Code found"
 else
-    echo -e "  ${RED}✗${NC} Claude Code not found"
+    error "Claude Code not found"
     echo "    Install: https://docs.anthropic.com/en/docs/claude-code"
     echo "    Claude Max subscription recommended"
     exit 1
 fi
 
+# Ensure ~/.claude/ directory exists
+if [ ! -d "$HOME/.claude" ]; then
+    mkdir -p "$HOME/.claude"
+    info "Created ~/.claude/ directory"
+fi
+
+# Ensure CLAUDE.md exists
+if [ ! -f "$CLAUDE_MD" ]; then
+    touch "$CLAUDE_MD"
+    info "Created ~/.claude/CLAUDE.md"
+fi
+
 # Check OMC
-CLAUDE_MD="$HOME/.claude/CLAUDE.md"
-if [ -f "$CLAUDE_MD" ] && grep -q "OMC" "$CLAUDE_MD" 2>/dev/null; then
-    echo -e "  ${GREEN}✓${NC} oh-my-claudecode (OMC) detected"
+if grep -q "OMC" "$CLAUDE_MD" 2>/dev/null; then
+    info "oh-my-claudecode (OMC) detected"
 else
-    echo -e "  ${YELLOW}!${NC} oh-my-claudecode (OMC) not detected"
+    warn "oh-my-claudecode (OMC) not detected"
     echo "    Install: Run 'setup omc' in Claude Code"
     echo "    Comad Voice requires OMC. Install it first, then re-run this script."
     exit 1
 fi
 
 # Check gstack
-if [ -f "$CLAUDE_MD" ] && grep -q "gstack" "$CLAUDE_MD" 2>/dev/null; then
-    echo -e "  ${GREEN}✓${NC} gstack detected"
+if grep -q "gstack" "$CLAUDE_MD" 2>/dev/null; then
+    info "gstack detected"
 else
-    echo -e "  ${YELLOW}!${NC} gstack not detected (optional but recommended)"
+    warn "gstack not detected (optional but recommended)"
 fi
 
 # Check Codex CLI (optional)
 if command -v codex &> /dev/null; then
-    echo -e "  ${GREEN}✓${NC} Codex CLI found (parallel work enabled)"
+    info "Codex CLI found (parallel work enabled)"
 else
-    echo -e "  ${YELLOW}!${NC} Codex CLI not found (optional — install with: npm i -g @openai/codex)"
+    warn "Codex CLI not found (optional — install with: npm i -g @openai/codex)"
 fi
 
 # Check tmux (optional)
 if command -v tmux &> /dev/null; then
-    echo -e "  ${GREEN}✓${NC} tmux found"
+    info "tmux found"
 else
-    echo -e "  ${YELLOW}!${NC} tmux not found (optional — install with: brew install tmux)"
+    warn "tmux not found (optional — install with: brew install tmux)"
 fi
 
 echo ""
 
-# 2. Determine source directory
+# ─── Step 2: Determine source ───
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CORE_FILE="$SCRIPT_DIR/core/comad-voice.md"
 
-# If running from curl, download the core file
 if [ ! -f "$CORE_FILE" ]; then
-    echo -e "${YELLOW}[2/4] Downloading Comad Voice config...${NC}"
+    step "[2/4] Downloading Comad Voice config..."
     TEMP_DIR=$(mktemp -d)
-    curl -fsSL "https://raw.githubusercontent.com/kinkos1234/comad-voice/main/core/comad-voice.md" -o "$TEMP_DIR/comad-voice.md"
+
+    if ! curl -fsSL "$REPO_RAW/core/comad-voice.md" -o "$TEMP_DIR/comad-voice.md"; then
+        error "Failed to download comad-voice.md"
+        echo "    Check your internet connection and try again."
+        exit 1
+    fi
     CORE_FILE="$TEMP_DIR/comad-voice.md"
 
-    # Also download memory templates
+    # Validate downloaded file is not empty
+    if [ ! -s "$CORE_FILE" ]; then
+        error "Downloaded file is empty"
+        exit 1
+    fi
+
+    # Download memory templates
     mkdir -p "$TEMP_DIR/memory-templates"
-    curl -fsSL "https://raw.githubusercontent.com/kinkos1234/comad-voice/main/memory-templates/MEMORY.md" -o "$TEMP_DIR/memory-templates/MEMORY.md"
-    curl -fsSL "https://raw.githubusercontent.com/kinkos1234/comad-voice/main/memory-templates/experiments.md" -o "$TEMP_DIR/memory-templates/experiments.md"
-    curl -fsSL "https://raw.githubusercontent.com/kinkos1234/comad-voice/main/memory-templates/architecture.md" -o "$TEMP_DIR/memory-templates/architecture.md"
+    curl -fsSL "$REPO_RAW/memory-templates/MEMORY.md" -o "$TEMP_DIR/memory-templates/MEMORY.md" || true
+    curl -fsSL "$REPO_RAW/memory-templates/experiments.md" -o "$TEMP_DIR/memory-templates/experiments.md" || true
+    curl -fsSL "$REPO_RAW/memory-templates/architecture.md" -o "$TEMP_DIR/memory-templates/architecture.md" || true
     SCRIPT_DIR="$TEMP_DIR"
-    echo -e "  ${GREEN}✓${NC} Downloaded"
+    info "Downloaded"
 else
-    echo -e "${YELLOW}[2/4] Using local config files...${NC}"
-    echo -e "  ${GREEN}✓${NC} Found core/comad-voice.md"
+    step "[2/4] Using local config files..."
+    info "Found core/comad-voice.md"
 fi
 
 echo ""
 
-# 3. Install to CLAUDE.md
-echo -e "${YELLOW}[3/4] Installing Comad Voice config...${NC}"
+# ─── Step 3: Install to CLAUDE.md ───
+step "[3/4] Installing Comad Voice config..."
 
-# Check if already installed
-if grep -q "COMAD-VOICE:START" "$CLAUDE_MD" 2>/dev/null; then
-    echo -e "  ${YELLOW}!${NC} Comad Voice already installed in CLAUDE.md"
+# Backup CLAUDE.md before any modification
+BACKUP_FILE="${CLAUDE_MD}.bak.$(date +%Y%m%d%H%M%S)"
+cp "$CLAUDE_MD" "$BACKUP_FILE"
+info "Backup created: $BACKUP_FILE"
+
+if grep -q "$MARKER_START" "$CLAUDE_MD" 2>/dev/null; then
+    warn "Comad Voice already installed in CLAUDE.md"
     read -p "  Overwrite? (y/N): " overwrite
     if [ "$overwrite" != "y" ] && [ "$overwrite" != "Y" ]; then
         echo "  Skipping CLAUDE.md update"
     else
-        # Remove existing installation
-        sed -i.bak '/<!-- COMAD-VOICE:START -->/,/<!-- COMAD-VOICE:END -->/d' "$CLAUDE_MD"
+        # Remove existing installation using cross-platform sed
+        sed_inplace "/$MARKER_START/,/$MARKER_END/d" "$CLAUDE_MD"
         echo "" >> "$CLAUDE_MD"
         cat "$CORE_FILE" >> "$CLAUDE_MD"
-        echo -e "  ${GREEN}✓${NC} Updated CLAUDE.md"
+        info "Updated CLAUDE.md"
     fi
 else
     echo "" >> "$CLAUDE_MD"
     cat "$CORE_FILE" >> "$CLAUDE_MD"
-    echo -e "  ${GREEN}✓${NC} Added Comad Voice to CLAUDE.md"
+    info "Added Comad Voice to CLAUDE.md"
 fi
 
 echo ""
 
-# 4. Offer memory templates
-echo -e "${YELLOW}[4/4] Memory templates${NC}"
+# ─── Step 4: Memory templates ───
+step "[4/4] Memory templates"
 echo "  Memory templates help Claude remember across sessions."
 echo ""
 read -p "  Copy memory templates to current project? (y/N): " install_memory
 
 if [ "$install_memory" = "y" ] || [ "$install_memory" = "Y" ]; then
-    # Find the project-specific memory directory
     PROJECT_DIR=$(pwd)
     SAFE_PATH=$(echo "$PROJECT_DIR" | sed 's|/|-|g' | sed 's|^-||')
     MEMORY_DIR="$HOME/.claude/projects/$SAFE_PATH/memory"
 
     mkdir -p "$MEMORY_DIR"
 
-    if [ ! -f "$MEMORY_DIR/MEMORY.md" ]; then
-        cp "$SCRIPT_DIR/memory-templates/MEMORY.md" "$MEMORY_DIR/MEMORY.md"
-        echo -e "  ${GREEN}✓${NC} Created $MEMORY_DIR/MEMORY.md"
-    else
-        echo -e "  ${YELLOW}!${NC} MEMORY.md already exists, skipping"
-    fi
-
-    if [ ! -f "$MEMORY_DIR/experiments.md" ]; then
-        cp "$SCRIPT_DIR/memory-templates/experiments.md" "$MEMORY_DIR/experiments.md"
-        echo -e "  ${GREEN}✓${NC} Created experiments.md"
-    else
-        echo -e "  ${YELLOW}!${NC} experiments.md already exists, skipping"
-    fi
-
-    if [ ! -f "$MEMORY_DIR/architecture.md" ]; then
-        cp "$SCRIPT_DIR/memory-templates/architecture.md" "$MEMORY_DIR/architecture.md"
-        echo -e "  ${GREEN}✓${NC} Created architecture.md"
-    else
-        echo -e "  ${YELLOW}!${NC} architecture.md already exists, skipping"
-    fi
+    for tmpl in MEMORY.md experiments.md architecture.md; do
+        SRC="$SCRIPT_DIR/memory-templates/$tmpl"
+        DEST="$MEMORY_DIR/$tmpl"
+        if [ -f "$SRC" ]; then
+            if [ ! -f "$DEST" ]; then
+                cp "$SRC" "$DEST"
+                info "Created $tmpl"
+            else
+                warn "$tmpl already exists, skipping"
+            fi
+        fi
+    done
 else
     echo "  Skipping memory templates"
 fi

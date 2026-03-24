@@ -29,3 +29,20 @@ jobs:
             fi
           done
           echo "All required files present"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install bats
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bats
+
+      - name: Run file structure tests
+        run: |
+          bats tests/test_install.bats --filter "core/comad-voice.md exists"
+          bats tests/test_install.bats --filter "trigger modules exist"
+          bats tests/test_install.bats --filter "memory templates exist"
+          bats tests/test_install.bats --filter "install.sh is executable"
