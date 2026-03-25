@@ -14,7 +14,9 @@
 
 "뭘 시켜야 할지 모르겠어서."
 
-[이미지: Comad Voice 로고 + 태그라인]
+GitHub: https://github.com/kinkos1234/comad-voice
+
+![Comad Voice Cover](images/slide-1-cover.png)
 
 ---
 
@@ -48,7 +50,7 @@ Claude Code에 설정 하나 추가하면,
 2. 개선 가능한 영역을 카드로 보여줌
 3. 번호만 고르면 자동 실험 루프
 
-[이미지: Before/After 비교]
+![Before vs After](images/slide-2-before-after.png)
 
 ---
 
@@ -85,7 +87,7 @@ DELIVER     → PR 생성 + 회고
 의존성 판단도 AI가 알아서 한다.
 독립적인 작업은 Codex에 자동 위임.
 
-[이미지: 파이프라인 플로우 다이어그램]
+![Pipeline Flow](images/slide-3-pipeline.png)
 
 ---
 
@@ -120,7 +122,7 @@ Comad Voice는 내 AI 도구 시리즈의 네 번째:
 눈으로 보고, 귀로 듣고, 뇌로 생각하고,
 이제 목소리로 만든다.
 
-[이미지: Comad 시리즈 다이어그램]
+![Comad Series](images/slide-4-series.png)
 
 ---
 

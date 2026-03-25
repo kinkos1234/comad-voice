@@ -13,12 +13,13 @@
   <a href="https://github.com/kinkos1234/comad-voice/releases"><img src="https://img.shields.io/github/v/release/kinkos1234/comad-voice?include_prereleases" alt="Release"></a>
   <img src="https://img.shields.io/badge/Made%20with-AI-22D3EE" alt="Made with AI">
   <img src="https://img.shields.io/badge/Claude%20Code-compatible-blueviolet" alt="Claude Code">
+  <a href="https://github.com/kinkos1234/comad-voice/stargazers"><img src="https://img.shields.io/github/stars/kinkos1234/comad-voice?style=social" alt="GitHub Stars"></a>
 </p>
 
 <p align="center">
   비개발자 바이브코더를 위한 AI 워크플로우 하네스.<br>
-  Claude Code + Codex + Gemini를 하나의 음성처럼 통합해서,<br>
-  대주제 하나 던지면 리서치 → 실험 → 리팩토링 → 완성까지 자동으로 돌아간다.
+  Claude Code 하나만 있으면 대주제 하나 던지면<br>
+  리서치 → 실험 → 리팩토링 → 완성까지 자동으로 돌아간다.
 </p>
 
 <p align="center">
@@ -32,11 +33,13 @@
 - [Comad 시리즈](#comad-시리즈)
 - [누구를 위한 건가요?](#누구를-위한-건가요)
 - [이걸 쓰면 뭐가 달라지나요?](#이걸-쓰면-뭐가-달라지나요)
+- [왜 Comad Voice인가?](#왜-comad-voice인가)
 - [필수 요구 사항](#필수-요구-사항)
 - [설치](#설치)
 - [사용법](#사용법)
 - [핵심 명령어 치트시트](#핵심-명령어-치트시트)
 - [작동 원리](#작동-원리)
+- [문제 해결](#문제-해결)
 - [크레딧](#크레딧)
 - [기여하기](#기여하기)
 - [라이선스](#라이선스)
@@ -66,6 +69,34 @@
 
 **After:** "검토해봐" → Claude가 알아서 진단하고, 선택지 카드를 보여주고, 선택만 하면 자동 실험 루프
 
+<p align="center">
+  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="500">
+</p>
+
+### 기능 비교
+
+| 기능 | Raw Claude Code | Comad Voice |
+| --- | :---: | :---: |
+| 한마디 진단 ("검토해봐") | - | O |
+| 자동 실험 루프 (autoresearch) | - | O |
+| 멀티-AI 의존성 자동 판단 | - | O |
+| 세션 메모리 관리 | - | O |
+| 로컬 모델 대기시간 활용 | - | O |
+| 비개발자 카드 UI | - | O |
+| 설치 복잡도 | - | 1줄 curl |
+
+### 왜 Comad Voice인가?
+
+Claude Code는 강력하지만, **뭘 시켜야 하는지 아는 사람**을 위해 설계되었습니다.
+
+Comad Voice는 그 반대편에 있는 사람을 위한 것입니다:
+
+- "검토해봐" 한마디면 AI가 알아서 진단하고 실험합니다
+- 의존성 판단, 병렬 위임, 세션 관리를 사용자 대신 합니다
+- 코드가 아닌 **설정(configuration)**입니다 — 설치하고 말하면 끝
+
+> "도구를 잘 쓰는 것"이 아니라 "도구가 알아서 잘 되는 것"
+
 ---
 
 ## 필수 요구 사항
@@ -73,20 +104,16 @@
 | 도구                       | 필요 여부 | 설명                                      |
 | -------------------------- | --------- | ----------------------------------------- |
 | **Claude Code**            | 필수      | Claude Max 구독 권장 (Opus 모델 사용)     |
-| **oh-my-claudecode (OMC)** | 필수      | 멀티 에이전트 오케스트레이션              |
-| **gstack**                 | 필수      | 스프린트 워크플로우 + QA                  |
 | **Codex CLI**              | 선택      | 병렬 작업 위임 (없어도 Claude만으로 동작) |
 | **tmux**                   | 선택      | Codex CLI 병렬 실행에 필요                |
+| **oh-my-claudecode (OMC)** | 선택      | 있으면 추가 에이전트/스킬 활용            |
+| **gstack**                 | 선택      | 있으면 브라우저 QA 등 추가 기능           |
+
+> v2.0부터 OMC/gstack 없이도 모든 핵심 기능이 동작합니다.
 
 ### 사전 설치
 
 ```bash
-# OMC 설치 (Claude Code 내에서)
-# → Claude Code에서 "setup omc" 입력
-
-# gstack 설치
-# → https://github.com/anthropics/gstack 참조
-
 # Codex CLI (선택)
 npm install -g @openai/codex
 
@@ -171,16 +198,22 @@ Claude가 백그라운드 실행 + 병렬 작업을 자동으로 관리합니다
 | ---------------- | ------------------------------------------ |
 | 현재 상태 진단   | "검토해봐", "어디가 문제야?"               |
 | 대주제 자동 실행 | "풀사이클", "알아서 다 해줘"               |
-| 실험 반복        | "autoresearch", "실험해봐"                 |
-| 세션 정리        | "메모리에 저장하고 새 세션"                |
+| 실험 반복        | "실험해봐", "autoresearch"                 |
+| 세션 저장        | "여기까지", "세션 끝", "저장해줘"          |
+| 이어서 작업      | "이어서 해줘", "어디까지 했어?"            |
 | 대기 시간 활용   | "다음 실험 미리 준비해줘"                  |
-| 코덱스 병렬 작업 | 자동 감지 (의존성 없는 작업을 알아서 위임) |
+| 병렬 작업        | 자동 감지 (의존성 없는 작업을 알아서 위임) |
+| 레포 꾸미기      | "광택", "repo polish", "레포 정리"         |
 
 ---
 
 ## 작동 원리
 
 ### Full-Cycle Pipeline
+
+<p align="center">
+  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="500">
+</p>
 
 ```
 사용자: "리포트 품질 개선해줘"
@@ -220,20 +253,58 @@ Claude가 5가지 기준으로 자동 분석합니다:
 - 중요한 결과는 자동으로 메모리 파일에 저장
 - 새 세션에서 자동 복원
 
+### 프로젝트 구조
+
+```
+comad-voice/
+├── core/
+│   ├── comad-voice.md          # 핵심 설정 (CLAUDE.md에 추가됨)
+│   └── triggers/
+│       ├── t0-onboarding.md    # 첫 세션 온보딩
+│       ├── t1-review.md        # "검토해봐" 트리거
+│       ├── t2-fullcycle.md     # "풀사이클" 트리거
+│       ├── t3-parallel.md      # 병렬 자동 감지
+│       ├── t4-polish.md        # 레포 광택 트리거
+│       └── t5-session-save.md  # 세션 저장 & 인수인계
+├── memory-templates/           # 세션 메모리 템플릿
+├── examples/
+│   └── first-session.md        # 첫 세션 가이드
+├── install.sh                  # 원클릭 설치 스크립트
+└── tests/                      # bats 테스트 스위트
+```
+
+---
+
+## 문제 해결
+
+### "검토해봐"가 작동하지 않아요
+
+- `~/.claude/CLAUDE.md`에서 `COMAD-VOICE:START` 마커가 있는지 확인
+- `cat ~/.claude/CLAUDE.md | grep COMAD-VOICE` 로 설치 확인
+
+### 설치 스크립트가 실패해요
+
+- `claude` CLI가 설치되어 있는지 확인: `which claude`
+- 기존 CLAUDE.md 백업: `~/.claude/CLAUDE.md.bak.*` 에서 복원 가능
+
+### Codex 병렬 위임이 안 돼요
+
+- Codex CLI 설치 확인: `which codex`
+- tmux 설치 확인: `which tmux`
+- 이 기능은 선택 사항 — Codex 없이도 모든 기능 동작
+
 ---
 
 ## 크레딧
 
-Comad Voice는 다음 오픈소스 도구들 위에 만들어진 하네스입니다:
+Comad Voice는 다음 도구들에서 영감을 받아 독립적으로 개발되었습니다:
 
-- **[oh-my-claudecode (OMC)](https://github.com/anthropics/oh-my-claudecode)** — 멀티 에이전트 오케스트레이션
-- **[gstack](https://github.com/anthropics/gstack)** — 스프린트 워크플로우 + 브라우저 QA
-- **autoresearch** — 자율 실험 루프 (Andrej Karpathy 영감)
-- **pumasi** — Codex CLI 병렬 위임
-- **Nexus** — 통합 자율 개발 시스템
+- **autoresearch** 패턴 — 자율 실험 루프 (Andrej Karpathy 영감)
+- **oh-my-claudecode (OMC)** — 멀티 에이전트 오케스트레이션 아이디어
+- **gstack** — 안전 프로토콜 패턴
 
-> 이 도구들의 원작자분들께 감사드립니다.
-> Comad Voice는 이 도구들을 비개발자도 쉽게 쓸 수 있도록 워크플로우를 정리한 것입니다.
+> v2.0부터 Comad Voice는 외부 도구 없이 독립적으로 동작합니다.
+> OMC/gstack이 설치되어 있으면 추가 기능으로 활용합니다.
 
 ### 영감
 
@@ -253,6 +324,12 @@ Comad Voice는 다음 오픈소스 도구들 위에 만들어진 하네스입니
 ## 라이선스
 
 [MIT](LICENSE) - 자유롭게 사용, 수정, 배포할 수 있습니다.
+
+---
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kinkos1234/comad-voice&type=Date)](https://star-history.com/#kinkos1234/comad-voice&Date)
 
 ---
 

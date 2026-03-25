@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.0] - 2026-03-25
+
+### Added
+- **T0 온보딩 트리거** — 첫 세션 자동 프로젝트 탐색 + `.comad/` 초기화
+- **T5 세션 저장 트리거** — "여기까지", "저장해줘"로 작업 상태 저장 + 인수인계
+- **5역할 시스템** — 탐색자/설계자/실행자/검토자/확인자 (Claude Code Agent tool 기반)
+- **자동실험 루프 (Autoresearch)** — git keep/discard 패턴으로 자체 실험 프로토콜
+- **안전 프로토콜** — 위험 명령 한국어 경고, 디버깅 3원칙, 프로덕션 감지
+- **진행 상황 내레이션** — 모든 자동화 단계를 한국어로 실시간 보고
+- **실험 내레이션** — 각 실험의 가설/변경/결과/판단을 사용자에게 보고
+- **`.comad/` 상태 폴더** — 프로젝트별 독립 상태 관리
+
+### Changed
+- **OMC/gstack 의존성 제거** — 필수 → 선택 (있으면 활용, 없어도 동작)
+- **Nexus 의존성 제거** — 풀사이클/병렬 로직을 Comad Voice 자체로 내재화
+- 파이프라인 용어 한국어화 (RESEARCH→조사, DECOMPOSE→분해 등)
+- `.omc/` 경로 → `.comad/` 경로로 독립
+- `install.sh` v2.0 — OMC 미설치 시에도 정상 설치 가능
+- T2 (풀사이클) 확장 — 내레이션 포함, 외부 스킬 참조 제거
+- T3 (병렬) 확장 — Agent tool 기반 병렬 실행 방법 명시, `/pumasi` 참조 제거
+
+### Removed
+- OMC 필수 설치 요구 (`install.sh`에서 `exit 1` 제거)
+- gstack 필수 설치 요구
+- Nexus 트리거 중복 (`comad-voice.md`에서 Nexus 참조 전면 제거)
+- 외부 스킬 슬래시 명령어 참조 (`/deep-research`, `/autoresearch`, `/pumasi`, `/team`)
+
 ## [1.1.0] - 2026-03-24
 
 ### Added

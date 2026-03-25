@@ -13,12 +13,13 @@
   <a href="https://github.com/kinkos1234/comad-voice/releases"><img src="https://img.shields.io/github/v/release/kinkos1234/comad-voice?include_prereleases" alt="Release"></a>
   <img src="https://img.shields.io/badge/Made%20with-AI-22D3EE" alt="Made with AI">
   <img src="https://img.shields.io/badge/Claude%20Code-compatible-blueviolet" alt="Claude Code">
+  <a href="https://github.com/kinkos1234/comad-voice/stargazers"><img src="https://img.shields.io/github/stars/kinkos1234/comad-voice?style=social" alt="GitHub Stars"></a>
 </p>
 
 <p align="center">
   AI workflow harness for non-developer vibe coders.<br>
-  Unifies Claude Code + Codex + Gemini into a single voice —<br>
-  throw one big topic and it auto-runs: research → experiment → refactor → ship.
+  Just Claude Code — throw one big topic and it auto-runs:<br>
+  research → experiment → refactor → ship.
 </p>
 
 <p align="center">
@@ -32,11 +33,13 @@
 - [Comad Series](#comad-series)
 - [Who Is This For?](#who-is-this-for)
 - [What Changes?](#what-changes)
+- [Why Comad Voice?](#why-comad-voice)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Command Cheatsheet](#command-cheatsheet)
 - [How It Works](#how-it-works)
+- [Troubleshooting](#troubleshooting)
 - [Credits](#credits)
 - [Contributing](#contributing)
 - [License](#license)
@@ -66,6 +69,33 @@
 
 **After:** "Review this" → Claude auto-diagnoses, shows improvement cards, you pick a number, and it runs an autonomous experiment loop
 
+<p align="center">
+  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="500">
+</p>
+
+### Feature Comparison
+
+| Feature | Raw Claude Code | With Comad Voice |
+| --- | :---: | :---: |
+| One-word diagnosis ("review this") | - | Yes |
+| Autonomous experiment loop (autoresearch) | - | Yes |
+| Multi-AI dependency auto-detection | - | Yes |
+| Session memory management | - | Yes |
+| Local model wait-time utilization | - | Yes |
+| Non-developer card UI | - | Yes |
+| Installation complexity | - | 1-line curl |
+
+### Why Comad Voice?
+
+Claude Code is powerful, but it's designed for people who **know what to ask**.
+
+Comad Voice is for the other side:
+- Say "review this" and AI diagnoses and experiments on its own
+- Dependency analysis, parallel delegation, and session management happen automatically
+- It's **configuration**, not code — install and speak
+
+> Not "using tools well" but "tools working well on their own."
+
 ---
 
 ## Prerequisites
@@ -73,20 +103,16 @@
 | Tool                       | Required | Description                                    |
 | -------------------------- | -------- | ---------------------------------------------- |
 | **Claude Code**            | Yes      | Claude Max subscription recommended (Opus)     |
-| **oh-my-claudecode (OMC)** | Yes      | Multi-agent orchestration                      |
-| **gstack**                 | Yes      | Sprint workflow + QA                           |
 | **Codex CLI**              | Optional | Parallel task delegation (works without it)    |
 | **tmux**                   | Optional | Required for Codex CLI parallel execution      |
+| **oh-my-claudecode (OMC)** | Optional | Extra agents/skills if installed               |
+| **gstack**                 | Optional | Browser QA and more if installed               |
+
+> Since v2.0, all core features work with just Claude Code — no external tools required.
 
 ### Pre-installation
 
 ```bash
-# OMC (inside Claude Code)
-# → Type "setup omc" in Claude Code
-
-# gstack
-# → See https://github.com/anthropics/gstack
-
 # Codex CLI (optional)
 npm install -g @openai/codex
 
@@ -169,20 +195,26 @@ Save results to memory and start a new session
 
 ## Command Cheatsheet
 
-| What you want              | Just say this                       |
-| -------------------------- | ----------------------------------- |
-| Diagnose current state     | "검토해봐", "review this"           |
-| Auto-run big topic         | "풀사이클", "full-cycle"            |
-| Iterative experiments      | "autoresearch", "experiment"        |
-| Save and restart session   | "save to memory, new session"       |
-| Use wait time              | "prepare next experiment"           |
-| Codex parallel tasks       | Auto-detected (delegates if independent) |
+| What you want            | Just say this                              |
+| ------------------------ | ------------------------------------------ |
+| Diagnose current state   | "검토해봐", "review this"                  |
+| Auto-run big topic       | "풀사이클", "full-cycle"                   |
+| Iterative experiments    | "experiment", "autoresearch"               |
+| Save session             | "save session", "여기까지"                 |
+| Resume work              | "continue", "이어서 해줘"                  |
+| Use wait time            | "prepare next experiment"                  |
+| Parallel tasks           | Auto-detected (delegates if independent)   |
+| Polish your repo         | "repo polish", "광택"                      |
 
 ---
 
 ## How It Works
 
 ### Full-Cycle Pipeline
+
+<p align="center">
+  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="500">
+</p>
 
 ```
 User: "Improve report quality"
@@ -222,20 +254,58 @@ Prevents context pollution in long sessions:
 - Important results auto-saved to memory files
 - Auto-restored in new sessions
 
+### Project Structure
+
+```
+comad-voice/
+├── core/
+│   ├── comad-voice.md          # Core config (appended to CLAUDE.md)
+│   └── triggers/
+│       ├── t0-onboarding.md    # First session onboarding
+│       ├── t1-review.md        # "Review this" trigger
+│       ├── t2-fullcycle.md     # "Full-cycle" trigger
+│       ├── t3-parallel.md      # Parallel auto-detection
+│       ├── t4-polish.md        # Repo polish trigger
+│       └── t5-session-save.md  # Session save & handoff
+├── memory-templates/           # Session memory templates
+├── examples/
+│   └── first-session.md        # First session guide
+├── install.sh                  # One-click installer
+└── tests/                      # bats test suite
+```
+
+---
+
+## Troubleshooting
+
+### "Review this" doesn't work
+
+- Check that `COMAD-VOICE:START` marker exists in `~/.claude/CLAUDE.md`
+- Run `cat ~/.claude/CLAUDE.md | grep COMAD-VOICE` to verify installation
+
+### Install script fails
+
+- Verify Claude CLI is installed: `which claude`
+- Existing backup available at: `~/.claude/CLAUDE.md.bak.*`
+
+### Codex parallel delegation doesn't work
+
+- Check Codex CLI: `which codex`
+- Check tmux: `which tmux`
+- This feature is optional — everything works without Codex
+
 ---
 
 ## Credits
 
-Comad Voice is a harness built on top of these open-source tools:
+Comad Voice was independently developed, inspired by these tools:
 
-- **[oh-my-claudecode (OMC)](https://github.com/anthropics/oh-my-claudecode)** — Multi-agent orchestration
-- **[gstack](https://github.com/anthropics/gstack)** — Sprint workflow + browser QA
-- **autoresearch** — Autonomous experiment loop (Andrej Karpathy inspired)
-- **pumasi** — Codex CLI parallel delegation
-- **Nexus** — Unified autonomous development system
+- **autoresearch** pattern — Autonomous experiment loop (Andrej Karpathy inspired)
+- **oh-my-claudecode (OMC)** — Multi-agent orchestration ideas
+- **gstack** — Safety protocol patterns
 
-> Thanks to the original authors of these tools.
-> Comad Voice organizes these workflows so non-developers can use them easily.
+> Since v2.0, Comad Voice runs independently without external tools.
+> If OMC/gstack are installed, they're used as optional enhancements.
 
 ### Inspiration
 
@@ -255,6 +325,12 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 ## License
 
 [MIT](LICENSE) — Free to use, modify, and distribute.
+
+---
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kinkos1234/comad-voice&type=Date)](https://star-history.com/#kinkos1234/comad-voice&Date)
 
 ---
 
