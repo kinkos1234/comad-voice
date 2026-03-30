@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # ─── Constants ───
-VERSION="2.1.0"
+VERSION="2.2.0"
 CLAUDE_MD="$HOME/.claude/CLAUDE.md"
 MARKER_START="<!-- COMAD-VOICE:START -->"
 MARKER_END="<!-- COMAD-VOICE:END -->"
