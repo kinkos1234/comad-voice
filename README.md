@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/slide-1-cover.png" alt="Comad Voice" width="480" style="max-width: 100%;">
+  <img src="docs/images/slide-1-cover.png" alt="Comad Voice" width="800" style="max-width: 100%;">
 </p>
 
 <h1 align="center">Comad Voice</h1>
@@ -70,12 +70,12 @@
 **After:** "검토해봐" → Claude가 알아서 진단하고, 선택지 카드를 보여주고, 선택만 하면 자동 실험 루프
 
 <p align="center">
-  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="600" style="max-width: 100%;">
+  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="800" style="max-width: 100%;">
 </p>
 
 ### 기능 비교
 
-| 기능 | Raw Claude Code | Comad Voice |
+| 기능 | Raw Claude Code | Comad Voice v3 |
 | --- | :---: | :---: |
 | 한마디 진단 ("검토해봐") | - | O |
 | 자동 실험 루프 (autoresearch) | - | O |
@@ -83,6 +83,11 @@
 | 세션 메모리 관리 | - | O |
 | 로컬 모델 대기시간 활용 | - | O |
 | 비개발자 카드 UI | - | O |
+| 디자인 파이프라인 (시안+코드) | - | O (v3 신규) |
+| 보안 감사 (CSO 모드) | - | O (v3 신규) |
+| 브라우저 QA 테스트 | - | O (v3 신규) |
+| 배포+카나리 모니터링 | - | O (v3 신규) |
+| 멀티AI 검증+학습 관리 | - | O (v3 신규) |
 | 설치 복잡도 | - | 1줄 curl |
 
 ### 왜 Comad Voice인가?
@@ -202,6 +207,11 @@ Claude가 백그라운드 실행 + 병렬 작업을 자동으로 관리합니다
 | 대기 시간 활용   | "다음 실험 미리 준비해줘"                  |
 | 병렬 작업        | 자동 감지 (의존성 없는 작업을 알아서 위임) |
 | 레포 꾸미기      | "광택", "repo polish", "레포 정리"         |
+| 디자인 만들기    | "디자인해줘", "UI 만들어줘", "목업"        |
+| 보안 점검        | "보안 점검", "보안 감사", "취약점"         |
+| 사이트 테스트    | "QA해줘", "화면 확인", "사이트 테스트"     |
+| 배포하기         | "배포해줘", "라이브로", "프로덕션에"       |
+| AI 세컨드 오피니언 | "다른 AI한테 물어봐", "세컨드 오피니언"  |
 
 ---
 
@@ -210,7 +220,7 @@ Claude가 백그라운드 실행 + 병렬 작업을 자동으로 관리합니다
 ### Full-Cycle Pipeline
 
 <p align="center">
-  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="600" style="max-width: 100%;">
+  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="800" style="max-width: 100%;">
 </p>
 
 ```
@@ -227,9 +237,9 @@ Claude가 백그라운드 실행 + 병렬 작업을 자동으로 관리합니다
          ↓
 [INTEGRATE] 최적 결과 병합 + 리팩토링
          ↓
-[POLISH] QA + 성능 + 문서화
+[POLISH] 디자인 검수(T6) + 브라우저 QA(T8) + 보안 감사(T7) + 문서화
          ↓
-[DELIVER] PR 생성 + 회고
+[DELIVER] 배포 파이프라인(T9) + PR 생성 + 회고 + 학습 기록(T10)
 ```
 
 ### 의존성 자동 판단
@@ -256,7 +266,8 @@ Claude가 5가지 기준으로 자동 분석합니다:
 ```
 comad-voice/
 ├── core/
-│   ├── comad-voice.md          # 핵심 설정 (CLAUDE.md에 추가됨)
+│   ├── comad-voice.md          # 핵심 설정 (CLAUDE.md에 추가됨, 11개 트리거)
+│   ├── design-palettes.md      # 디자인 레퍼런스 (9 팔레트 + 타이포/컬러 가이드)
 │   └── triggers/
 │       ├── t0-onboarding.md    # 첫 세션 온보딩
 │       ├── t1-review.md        # "검토해봐" 트리거
@@ -270,6 +281,8 @@ comad-voice/
 ├── install.sh                  # 원클릭 설치 스크립트
 └── tests/                      # bats 테스트 스위트
 ```
+
+> T6-T10 트리거는 `core/comad-voice.md`에 직접 정의되어 있습니다.
 
 ---
 

@@ -1,5 +1,5 @@
 <!-- COMAD-VOICE:START -->
-<!-- COMAD-VOICE:VERSION:2.2.0 -->
+<!-- COMAD-VOICE:VERSION:3.0.0 -->
 # Comad Voice — "말만 해. 나머지는 AI가 다 한다."
 
 비개발자 바이브코더를 위한 AI 워크플로우 하네스.
