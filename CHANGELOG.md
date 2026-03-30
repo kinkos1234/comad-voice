@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] - 2026-03-30
+
+### Changed
+- **외부 의존성 완전 내재화** — OMC/gstack 참조를 모든 파일에서 제거
+- 풀사이클 파이프라인(T2)의 gstack 스킬 참조를 자체 설명으로 대체
+- `core/comad-voice.md` 외부 도구 테이블에서 OMC/gstack 행 제거
+- `install.sh` v2.1 — OMC/gstack 감지 로직 제거 (불필요한 출력 정리)
+- README/README.en 필수 요구 사항에서 OMC/gstack 제거
+- 모든 홍보 문서(docs/) 업데이트 — "OMC/gstack 필수" → "Claude Code만으로 독립 동작"
+
+### Removed
+- `install.sh`의 OMC/gstack 감지 블록
+- `test_install.bats`의 "fails if OMC not detected" 테스트
+- SECURITY.md의 OMC/gstack 의존 도구 참조
+
 ## [2.0.0] - 2026-03-25
 
 ### Added

@@ -1,5 +1,5 @@
 <!-- COMAD-VOICE:START -->
-<!-- COMAD-VOICE:VERSION:2.0.0 -->
+<!-- COMAD-VOICE:VERSION:2.1.0 -->
 # Comad Voice — "말만 해. 나머지는 AI가 다 한다."
 
 비개발자 바이브코더를 위한 AI 워크플로우 하네스.
@@ -443,14 +443,12 @@ Claude가 다음을 감지하면 세션 교체 권장:
 
 ## 외부 도구 연동 (선택 사항)
 
-Comad Voice는 Claude Code만으로 완전히 동작하지만,
-아래 도구가 설치되어 있으면 자동으로 활용한다:
+Comad Voice는 Claude Code만으로 완전히 동작한다.
+아래 도구는 선택적으로 병렬 처리 성능을 높이는 데 사용할 수 있다:
 
 | 도구 | 있으면 | 없으면 |
 |------|--------|--------|
 | **Codex CLI** | 독립 태스크를 Codex에 병렬 위임 | Agent tool로 Claude 에이전트가 병렬 처리 |
-| **oh-my-claudecode** | OMC 에이전트/스킬 활용 가능 | Comad Voice 5역할 시스템으로 동일 기능 |
-| **gstack** | 브라우저 QA, 디자인 리뷰 등 추가 기능 | CLI 기반 테스트 + 수동 확인 |
 | **tmux** | Codex 병렬 실행에 필요 | Agent tool 기반 병렬만 사용 |
 
 <!-- COMAD-VOICE:END -->

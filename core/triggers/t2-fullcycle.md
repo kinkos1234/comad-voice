@@ -12,7 +12,7 @@ RESEARCH -> DECOMPOSE -> EXPERIMENT -> INTEGRATE -> POLISH -> DELIVER
 ### Stage 1: 조사 (RESEARCH)
 - 대주제의 기술 환경 파악 (웹 검색 + 코드베이스 탐색)
 - 탐색자(haiku) 에이전트로 기존 코드 구조 파악
-- gstack `/office-hours` 활용 가능: 제품 리프레이밍, 6가지 강제 질문으로 진짜 문제 파악
+- 제품 리프레이밍: "진짜 문제가 뭔가?", "누가 왜 쓰는가?", "지금 대안은?" 등 강제 질문으로 핵심 파악
 - 산출물: `.comad/research/topic-landscape.md`
 - **내레이션**: "[조사 단계] 시작합니다 — 기술 환경을 파악합니다."
 
@@ -56,20 +56,21 @@ RESEARCH -> DECOMPOSE -> EXPERIMENT -> INTEGRATE -> POLISH -> DELIVER
 ### Stage 4: 통합 (INTEGRATE)
 - 최적 결과를 하나로 병합
 - 검토자 에이전트로 코드 리뷰 + 중복 제거 + 리팩토링
-- gstack `/review` 활용 가능: SQL 안전성, 신뢰 경계, 조건부 부작용 등 구조적 검토
+- 구조적 검토: SQL 안전성, 신뢰 경계, 조건부 부작용, 보안 취약점 등
 - 테스트 추가
 - 산출물: 통합된 클린 코드 + 테스트
 - **내레이션**: "[통합 단계] 실험 결과를 하나로 합치고 있습니다."
 
 ### Stage 5: 다듬기 (POLISH)
-- 웹/UI: gstack `/design-review` + `/qa` 활용 가능 (브라우저 자동 QA)
+- 웹/UI: 디자인 일관성 점검 + 주요 흐름 수동/자동 QA
 - 비-UI: 성능 최적화 + 코드 리뷰
-- 문서화: gstack `/document-release` 활용 가능 (README/ARCHITECTURE 자동 동기화)
+- 문서화: README, ARCHITECTURE 등 프로젝트 문서 자동 동기화
 - 산출물: 성능 벤치마크, 최종 문서
 - **내레이션**: "[다듬기 단계] 품질 점검 + 문서화 진행 중."
 
 ### Stage 6: 전달 (DELIVER)
-- gstack `/ship` 활용 가능: base 브랜치 머지, 테스트, 리뷰, 버전 범프, PR 생성 자동화
-- gstack `/retro` 활용 가능: 스프린트 회고 (커밋 분석, 패턴 추적)
+- PR 생성 자동화: base 브랜치 머지, 테스트 실행, diff 리뷰, 버전 범프
+- CHANGELOG 업데이트 + GitHub Release
+- 스프린트 회고: 커밋 분석, 패턴 추적, 교훈 기록
 - 산출물: PR, CHANGELOG, 회고 기록
 - **내레이션**: "[전달 단계] PR을 만들고 마무리합니다."

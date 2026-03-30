@@ -81,8 +81,7 @@ curl -fsSL https://raw.githubusercontent.com/kinkos1234/comad-voice/main/install
 
 Prerequisites:
 - Claude Code (Claude Max recommended)
-- oh-my-claudecode (OMC)
-- gstack
+- Optional: Codex CLI + tmux for parallel delegation
 
 ## What I Learned
 

@@ -105,10 +105,8 @@ Comad Voice is for the other side:
 | **Claude Code**            | Yes      | Claude Max subscription recommended (Opus)     |
 | **Codex CLI**              | Optional | Parallel task delegation (works without it)    |
 | **tmux**                   | Optional | Required for Codex CLI parallel execution      |
-| **oh-my-claudecode (OMC)** | Optional | Extra agents/skills if installed               |
-| **gstack**                 | Optional | Browser QA and more if installed               |
 
-> Since v2.0, all core features work with just Claude Code — no external tools required.
+> All features work with just Claude Code — no external tool dependencies.
 
 ### Pre-installation
 
@@ -298,14 +296,13 @@ comad-voice/
 
 ## Credits
 
-Comad Voice was independently developed, inspired by these tools:
+Comad Voice was independently developed, inspired by:
 
 - **autoresearch** pattern — Autonomous experiment loop (Andrej Karpathy inspired)
-- **oh-my-claudecode (OMC)** — Multi-agent orchestration ideas
-- **gstack** — Safety protocol patterns
+- **Multi-agent orchestration** — Role-based agent delegation patterns
+- **Safety protocols** — Dangerous command warnings, debugging principles
 
-> Since v2.0, Comad Voice runs independently without external tools.
-> If OMC/gstack are installed, they're used as optional enhancements.
+> Comad Voice runs fully standalone with just Claude Code. No external tool dependencies.
 
 ### Inspiration
 

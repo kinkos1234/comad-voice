@@ -12,10 +12,9 @@ setup() {
     # Get the project root
     export PROJECT_ROOT="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." && pwd)"
 
-    # Create minimal CLAUDE.md with OMC marker (required prerequisite)
+    # Create minimal CLAUDE.md
     mkdir -p "$CLAUDE_DIR"
-    echo "# OMC Config" > "$CLAUDE_MD"
-    echo "gstack enabled" >> "$CLAUDE_MD"
+    echo "# Claude Code Config" > "$CLAUDE_MD"
 }
 
 teardown() {
@@ -33,14 +32,6 @@ teardown() {
     PATH="/usr/bin:/bin" run bash "$PROJECT_ROOT/install.sh" <<< "n"
     [ "$status" -ne 0 ]
     [[ "$output" == *"Claude Code not found"* ]]
-}
-
-@test "fails if OMC not detected in CLAUDE.md" {
-    # Remove OMC marker
-    echo "# Empty config" > "$CLAUDE_MD"
-    run bash "$PROJECT_ROOT/install.sh" <<< "n"
-    [ "$status" -ne 0 ]
-    [[ "$output" == *"oh-my-claudecode (OMC) not detected"* ]]
 }
 
 # ─── Fresh install ───

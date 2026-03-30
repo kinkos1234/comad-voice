@@ -21,5 +21,5 @@ GitHub Actions: markdownlint + install.sh syntax check + bats tests. Triggers on
 ## Key Rules
 - CLAUDE.md 삽입 시 COMAD-VOICE:START/END 마커 사용
 - install.sh는 기존 CLAUDE.md 백업 후 append
-- Standalone 동작 (OMC/gstack 없이도 작동)
+- Standalone 동작 (Claude Code만으로 완전 독립 동작, 외부 의존성 없음)
 - Trigger 파일 수정 시 core/comad-voice.md도 동기화 필요

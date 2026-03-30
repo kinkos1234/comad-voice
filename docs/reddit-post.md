@@ -40,13 +40,11 @@ RESEARCH → DECOMPOSE → EXPERIMENT → INTEGRATE → POLISH → DELIVER
 
 ### What it is NOT
 - Not a new CLI tool — it's configuration (markdown + bash)
-- Not a replacement for OMC or gstack — it's a harness ON TOP of them
-- Not magic — you still need Claude Code, OMC, and gstack installed
+- Not magic — you still need Claude Code installed
+- No external dependencies — fully standalone
 
 ### Requirements
 - Claude Code (Claude Max recommended)
-- oh-my-claudecode (OMC)
-- gstack
 - Optional: Codex CLI + tmux for parallel delegation
 
 ### Links

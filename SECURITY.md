@@ -28,4 +28,4 @@ Comad Voice는 `~/.claude/CLAUDE.md`에 설정을 추가하는 도구입니다.
 - `core/comad-voice.md` — CLAUDE.md에 주입되는 설정
 
 보안 검토 대상이 아닌 것:
-- Claude Code, OMC, gstack 등 의존 도구의 취약점 (각 프로젝트에 별도 신고)
+- Claude Code 자체의 취약점 (Anthropic에 별도 신고)

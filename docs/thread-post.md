@@ -135,9 +135,7 @@ cd comad-voice && ./install.sh
 
 필요한 것:
 - Claude Code (Claude Max 권장)
-- oh-my-claudecode (OMC)
-- gstack
-- Codex CLI + tmux (선택)
+- Codex CLI + tmux (선택, 병렬 처리용)
 
 설치 후 첫 명령어: "검토해봐"
 
@@ -145,18 +143,15 @@ cd comad-voice && ./install.sh
 
 ## 9/9 — 크레딧 & 마무리
 
-Comad Voice는 이 도구들 위에 만들어진 하네스입니다:
+Comad Voice는 Claude Code만으로 완전히 독립 동작합니다.
+외부 도구 의존성 없음. 설정 파일 하나가 전부.
 
-- oh-my-claudecode (OMC)
-- gstack
-- autoresearch
-- pumasi
-- Nexus
+영감을 준 것들:
+- Andrej Karpathy "Software in the era of AI"
+- 멀티 에이전트 오케스트레이션 패턴
+- 자율 실험 루프 (autoresearch) 패턴
 
-원작자분들께 감사드립니다.
-이 도구들을 비개발자도 쉽게 쓸 수 있도록 정리한 것입니다.
-
-영감: Andrej Karpathy "Software in the era of AI"
+비개발자도 AI의 풀파워를 쓸 수 있어야 한다.
 
 GitHub: https://github.com/kinkos1234/comad-voice
 

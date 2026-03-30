@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # ─── Constants ───
-VERSION="2.0.0"
+VERSION="2.1.0"
 CLAUDE_MD="$HOME/.claude/CLAUDE.md"
 MARKER_START="<!-- COMAD-VOICE:START -->"
 MARKER_END="<!-- COMAD-VOICE:END -->"
@@ -72,20 +72,6 @@ fi
 if [ ! -f "$CLAUDE_MD" ]; then
     touch "$CLAUDE_MD"
     info "Created ~/.claude/CLAUDE.md"
-fi
-
-# Check OMC (optional enhancement)
-if grep -q "OMC" "$CLAUDE_MD" 2>/dev/null; then
-    info "oh-my-claudecode (OMC) detected (optional enhancement)"
-else
-    info "No OMC detected — Comad Voice runs standalone"
-fi
-
-# Check gstack (optional enhancement)
-if grep -q "gstack" "$CLAUDE_MD" 2>/dev/null; then
-    info "gstack detected (optional enhancement)"
-else
-    info "No gstack detected — Comad Voice runs standalone"
 fi
 
 # Check Codex CLI (optional)

@@ -21,6 +21,6 @@ Say "검토해봐" (review this) → Claude diagnoses the codebase, shows improv
 
 Say "풀사이클" (full-cycle) → 6-stage pipeline: RESEARCH → DECOMPOSE → EXPERIMENT → INTEGRATE → POLISH → DELIVER, with automatic Codex parallel delegation.
 
-It's configuration-only: markdown files + a bash installer. No runtime code. Built on oh-my-claudecode and gstack. Requires Claude Code (Claude Max recommended).
+It's configuration-only: markdown files + a bash installer. No runtime code, no external dependencies. Requires Claude Code (Claude Max recommended).
 
 The core idea comes from Karpathy's "Software in the era of AI" talk — Generation + Verification loops with partial autonomy. Comad Voice automates the loop while keeping the human in control through card-based choices.
