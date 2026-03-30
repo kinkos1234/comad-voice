@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/slide-1-cover.png" alt="Comad Voice" width="400">
+  <img src="docs/images/slide-1-cover.png" alt="Comad Voice" width="480" style="max-width: 100%;">
 </p>
 
 <h1 align="center">Comad Voice</h1>
@@ -70,7 +70,7 @@
 **After:** "검토해봐" → Claude가 알아서 진단하고, 선택지 카드를 보여주고, 선택만 하면 자동 실험 루프
 
 <p align="center">
-  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="500">
+  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="600" style="max-width: 100%;">
 </p>
 
 ### 기능 비교
@@ -210,7 +210,7 @@ Claude가 백그라운드 실행 + 병렬 작업을 자동으로 관리합니다
 ### Full-Cycle Pipeline
 
 <p align="center">
-  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="500">
+  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="600" style="max-width: 100%;">
 </p>
 
 ```

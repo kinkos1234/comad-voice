@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/slide-1-cover.png" alt="Comad Voice" width="400">
+  <img src="docs/images/slide-1-cover.png" alt="Comad Voice" width="480" style="max-width: 100%;">
 </p>
 
 <h1 align="center">Comad Voice</h1>
@@ -70,7 +70,7 @@
 **After:** "Review this" → Claude auto-diagnoses, shows improvement cards, you pick a number, and it runs an autonomous experiment loop
 
 <p align="center">
-  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="500">
+  <img src="docs/images/slide-2-before-after.png" alt="Before vs After" width="600" style="max-width: 100%;">
 </p>
 
 ### Feature Comparison
@@ -211,7 +211,7 @@ Save results to memory and start a new session
 ### Full-Cycle Pipeline
 
 <p align="center">
-  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="500">
+  <img src="docs/images/slide-3-pipeline.png" alt="Full-Cycle Pipeline" width="600" style="max-width: 100%;">
 </p>
 
 ```
